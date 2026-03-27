@@ -37,4 +37,29 @@ npm i
 ou
 npm install (si vous préférez)
 ```
+Démarrez le frontend
+```
+npm start
+```
+Appuyez sur ctrl + cliquez sur le lien dans le terminal
+[http://localhost:4200/](http://localhost:4200/)
 
+<br>
+
+# Pour démarrer les tests avec Cypress
+Rendez-vous dans le dossier frontend
+```
+cd ./frontend
+```
+Vérifiez que votre système d'exploitation et votre navigateur répondent aux exigences [Cypress docs](https://docs.cypress.io/app/get-started/install-cypress).
+
+Exécutez la commande ci-dessous pour installer Cypress localement en tant que dépendance de développement :
+```
+npm install cypress --save-dev
+```
+Ouvrir Cypress avec cette commande puis choisir entre les tests de bout en bout (E2E) et les tests de composants (CT) :
+```
+npx cypress open
+```
+
+# Pour générer les rapports de tests
