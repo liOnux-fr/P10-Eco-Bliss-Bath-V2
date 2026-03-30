@@ -26,6 +26,9 @@ Pour démarrer l'API avec sa base de données.
 ```
 docker compose up -d
 ```
+Appuyez sur ctrl + cliquez sur le lien dans le terminal
+[http://localhost:8081/api/doc](http://localhost:8081/api/doc)
+
 # Pour démarrer le frontend de l'applicatif
 Rendez-vous dans le dossier frontend
 ```
@@ -59,7 +62,9 @@ npm install cypress --save-dev
 ```
 Ouvrir Cypress avec cette commande puis choisir entre les tests de bout en bout (E2E) et les tests de composants (CT) :
 ```
-npx cypress open
+npx cypress open (en GUI)
+ou
+npx cypress run (en CLI)
 ```
 
 # Pour générer les rapports de tests
