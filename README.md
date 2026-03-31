@@ -29,6 +29,7 @@ docker compose up -d
 Appuyez sur ctrl + cliquez sur le lien dans le terminal
 [swagger](http://localhost:8081/api/doc)
 
+<br>
 
 # Pour démarrer le frontend de l'applicatif
 Rendez-vous dans le dossier frontend
@@ -67,5 +68,7 @@ npx cypress open (en GUI)
 ou
 npx cypress run (en CLI)
 ```
+
+<br>
 
 # Pour générer les rapports de tests
