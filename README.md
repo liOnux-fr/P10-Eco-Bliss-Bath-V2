@@ -27,7 +27,7 @@ Pour démarrer l'API avec sa base de données.
 docker compose up -d
 ```
 Appuyez sur ctrl + cliquez sur le lien dans le terminal
-[swagger](http://localhost:8081/api/doc)
+[Swagger](http://localhost:8081/api/doc)
 
 <br>
 
