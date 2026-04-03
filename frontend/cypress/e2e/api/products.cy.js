@@ -6,7 +6,7 @@ describe("Tests sur l'API /products", () => {
   before(() => {
     // Récupère la liste des produits avant tous les tests
     cy.request("GET", apiProducts).then((response) => {
-      expect(response.isOkStatusCode).to.be.true;
+      expect(response.isOkStatusCode).to.be.true; // statut 100 ou 200
       expect(response.body).to.be.an("array").and.not.be.empty;
       productIds = response.body.map((product) => product.id);
     });
