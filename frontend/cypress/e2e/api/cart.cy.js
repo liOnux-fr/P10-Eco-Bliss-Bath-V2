@@ -19,8 +19,8 @@ describe("Tests sur l'API /orders", () => {
 
     it("récupère le panier en cours chez l'utilisateur connecté", () => {
       connect(credentials.username, credentials.password).then((response) => {
-        const token = Cypress.env("token"); // response dans le vide *****************************************************************
-        expect(token).to.not.be.undefined;
+        expect(response.body.token).to.exist;
+        const token = Cypress.env("token");
 
         cy.request({
           method: "GET",

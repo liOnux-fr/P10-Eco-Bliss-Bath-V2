@@ -8,13 +8,13 @@ describe("Tests sur l'API /reviews", () => {
     it("se connecte avec des identifiants valides et ajoute un avis", () => {
       // 1. Connexion pour obtenir un token
       connect(credentials.username, credentials.password).then((response) => {
+        expect(response.body.token).to.exist;
         const token = Cypress.env("token");
-        expect(token).to.not.be.undefined;
 
         // 2. Préparation de l'avis à envoyer
         const review = {
-          title: "Un Titre",
-          comment: "Un commentaire",
+          title: "Test d'avis",
+          comment: "Lorem ipsum",
           rating: 4,
         };
 
@@ -23,7 +23,7 @@ describe("Tests sur l'API /reviews", () => {
           method: "POST",
           url: apiReviews,
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: "Bearer " + token,
           },
           body: review,
         }).then((response) => {
@@ -33,31 +33,8 @@ describe("Tests sur l'API /reviews", () => {
           expect(response.body.title).to.eq(review.title);
           expect(response.body.comment).to.eq(review.comment);
           expect(response.body.rating).to.eq(review.rating);
-
-          //   const reviewId = response.body.id;
-          //   cy.request({
-          //     method: "DELETE",
-          //     url: `${apiReviews}/${reviewId}`, // Remplace reviewId par l'ID de l'avis créé
-          //     headers: {
-          //       Authorization: `Bearer ${token}`,
-          //     },
-          //   }).then((response) => {
-          //     expect(response.status).to.eq(200); // 200 = OK
-          //   });
         });
       });
     });
-
-    // it("nettoie l'avis ajouté après le test", () => {
-    //   cy.request({
-    //     method: "DELETE",
-    //     url: `${apiReviews}/${reviewId}`, // Remplace reviewId par l'ID de l'avis créé
-    //     headers: {
-    //       Authorization: `Bearer ${token}`,
-    //     },
-    //   }).then((response) => {
-    //     expect(response.status).to.eq(200); // 200 = OK
-    //   });
-    // });
   });
 });
