@@ -1,0 +1,11 @@
+// Persiste la session entre les différents fichiers de test
+
+import credentials from "../fixtures/credentials.json";
+import { connect } from "./connect";
+
+// Commande pour initialiser la session :
+Cypress.Commands.add("initSession", () => {
+  cy.session("login", () => {
+    connect(credentials.username, credentials.password);
+  });
+});

@@ -1,0 +1,42 @@
+import credentials from "../../fixtures/credentials.json";
+import { connect } from "../../support/connect";
+
+const apiOrdersAdd = `${Cypress.env("apiUrl")}/orders/add`;
+
+describe("Tests sur l'API /orders/add", () => {
+  let token;
+
+  beforeEach(() => {
+    // Connexion une seule fois avant chaque test
+    connect(credentials.username, credentials.password).then((response) => {
+      expect(response.body.token).to.exist;
+      token = response.body.token;
+    });
+  });
+
+  context("PUT /orders/add", () => {
+    it("ajoute un produit en stock", () => {
+      const product = { product: 3, quantity: 1 };
+      cy.request({
+        method: "PUT",
+        url: apiOrdersAdd,
+        headers: { Authorization: `Bearer ${token}` },
+        body: product,
+      }).then((response) => {
+        expect(response.status).to.eq(200);
+      });
+    });
+
+    it("ajoute un produit en rupture de stock", () => {
+      const product = { product: 5, quantity: 1 };
+      cy.request({
+        method: "PUT",
+        url: apiOrdersAdd,
+        headers: { Authorization: `Bearer ${token}` },
+        body: product,
+      }).then((response) => {
+        expect(response.status).to.eq(200);
+      });
+    });
+  });
+});

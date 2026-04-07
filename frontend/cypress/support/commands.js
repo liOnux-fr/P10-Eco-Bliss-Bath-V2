@@ -23,3 +23,13 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+import credentials from "../fixtures/credentials.json";
+import { connect } from "./connect";
+
+// Commande pour initialiser la session :
+Cypress.Commands.add("initSession", () => {
+  cy.session("login", () => {
+    connect(credentials.username, credentials.password);
+  });
+});
