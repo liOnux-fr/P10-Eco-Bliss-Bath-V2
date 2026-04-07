@@ -3,32 +3,39 @@ import { connect } from "../../support/connect";
 
 const apiOrdersAdd = `${Cypress.env("apiUrl")}/orders/add`;
 
-describe("Tests sur l'API /order/add", () => {
-  context("PUT /order/add", () => {
-    it("se connecte avec des identifiants valides et ajoute un produit", () => {
-      // 1. Connexion pour obtenir un token
-      connect(credentials.username, credentials.password).then((response) => {
-        expect(response.body.token).to.exist;
-        const token = Cypress.env("token");
+describe("Tests sur l'API /orders/add", () => {
+  let token;
 
-        // 2. Préparation du produit à ajouter
-        const product = {
-          product: 4,
-          quantity: 4,
-        };
+  beforeEach(() => {
+    // Connexion une seule fois avant chaque test
+    connect(credentials.username, credentials.password).then((response) => {
+      expect(response.body.token).to.exist;
+      token = response.body.token;
+    });
+  });
 
-        // 3. Envoi de la requête PUT pour ajouter le produit
-        cy.request({
-          method: "PUT",
-          url: apiOrdersAdd,
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-          body: product,
-        }).then((response) => {
-          // 4. Vérification de la réponse
-          expect(response.status).to.eq(200);
-        });
+  context("PUT /orders/add", () => {
+    it("ajoute un produit en stock", () => {
+      const product = { product: 4, quantity: 1 };
+      cy.request({
+        method: "PUT",
+        url: apiOrdersAdd,
+        headers: { Authorization: `Bearer ${token}` },
+        body: product,
+      }).then((response) => {
+        expect(response.status).to.eq(200);
+      });
+    });
+
+    it("ajoute un produit plus en stock", () => {
+      const product = { product: 5, quantity: 1 };
+      cy.request({
+        method: "PUT",
+        url: apiOrdersAdd,
+        headers: { Authorization: `Bearer ${token}` },
+        body: product,
+      }).then((response) => {
+        expect(response.status).to.eq(200);
       });
     });
   });
