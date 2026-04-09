@@ -10,7 +10,7 @@ describe("Tests sur l'API /login", () => {
 
       cy.initSession().then(() => {
         const token = Cypress.env("token");
-        // expect(response.status).to.eq(200);
+        expect(response.status).to.eq(200);
         expect(token).to.exist; // Vérifie que le token est disponible
       });
     });

@@ -29,7 +29,7 @@ import { connect } from "./connect";
 
 // Commande pour initialiser la session :
 Cypress.Commands.add("initSession", () => {
-  cy.session("login", () => {
+  cy.session("session", () => {
     connect(credentials.username, credentials.password);
   });
 });
