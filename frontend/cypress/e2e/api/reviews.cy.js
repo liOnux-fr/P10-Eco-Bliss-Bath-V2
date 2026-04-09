@@ -1,7 +1,5 @@
 // Tests sur l'API /reviews : ajout d'un avis
 
-const apiReviews = `${Cypress.env("apiUrl")}/reviews`;
-
 describe("Tests sur l'API /reviews", () => {
   beforeEach(() => {
     cy.initSession();
@@ -19,7 +17,7 @@ describe("Tests sur l'API /reviews", () => {
       // 2. Envoi de la requête POST pour ajouter l'avis
       cy.request({
         method: "POST",
-        url: apiReviews,
+        url: `${Cypress.env("apiUrl")}/reviews`,
         headers: {
           Authorization: `Bearer ${Cypress.env("token")}`,
         },

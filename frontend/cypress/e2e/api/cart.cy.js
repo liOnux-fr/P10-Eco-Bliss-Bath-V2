@@ -3,11 +3,13 @@
 const apiOrders = `${Cypress.env("apiUrl")}/orders`;
 
 describe("Tests sur l'API /orders", () => {
-  beforeEach(() => {
-    cy.initSession(); // Initialise la session une seule fois avant chaque test
+  before(() => {
+    cy.initSession(); // Initialise la session une seule fois avant les tests
   });
 
   context("GET /orders", () => {
+    // Test si l'accès au panier est possible sans authentification
+
     it("renvoie une erreur 401 ou 403 si accès au panier sans authentification", () => {
       cy.request({
         method: "GET",
@@ -18,20 +20,19 @@ describe("Tests sur l'API /orders", () => {
       });
     });
 
+    // Test pour lister les produits du panier après authentification
     it("récupère le panier en cours chez l'utilisateur connecté", () => {
       cy.request({
         method: "GET",
         url: apiOrders,
         headers: {
-          Authorization: `Bearer ${Cypress.env("token")}`, // Ajoute le token dans l'en-tête
+          Authorization: `Bearer ${Cypress.env("token")}`,
         },
       }).then((response) => {
         expect(response.status).to.eq(200); // vérifie le bon statut
-
-        // Vérifie que la réponse contient un tableau de 'n' ligne(s) de commande
         expect(response.body)
           .to.have.property("orderLines")
-          .that.is.an("array");
+          .that.is.an("array"); // Vérifie que la réponse contient un tableau de 'n' ligne(s) de commande
 
         // Affiche le nombre de lignes de commande
         const orderLines = response.body.orderLines;

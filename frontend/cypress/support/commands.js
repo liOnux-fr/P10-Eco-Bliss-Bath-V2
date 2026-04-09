@@ -25,11 +25,26 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import credentials from "../fixtures/credentials.json";
-import { connect } from "./connect";
 
-// Commande pour initialiser la session :
+// Command pour la connexion d'utilisateur
+Cypress.Commands.add("connect", (username, password) => {
+  return cy
+    .request({
+      method: "POST",
+      url: `${Cypress.env("apiUrl")}/login`,
+      failOnStatusCode: false,
+      body: { username, password },
+    })
+    .then((response) => {
+      Cypress.env("status", response.status);
+      Cypress.env("token", response.body.token);
+      return response;
+    });
+});
+
+// Command pour la persistance de la session
 Cypress.Commands.add("initSession", () => {
   cy.session("session", () => {
-    connect(credentials.username, credentials.password);
+    return cy.connect(credentials.username, credentials.password);
   });
 });
