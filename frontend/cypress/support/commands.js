@@ -48,3 +48,7 @@ Cypress.Commands.add("initSession", () => {
     return cy.connect(credentials.username, credentials.password);
   });
 });
+
+Cypress.Commands.add("getBySel", (selector, ...args) => {
+  return cy.get(`[data-cy=${selector}]`, ...args);
+});
