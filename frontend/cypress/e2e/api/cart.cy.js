@@ -9,14 +9,17 @@ describe("Tests sur l'API /orders", () => {
 
   context("GET /orders", () => {
     // Test si l'accès au panier est possible sans authentification
+    /*Un 401 Unauthorized est similaire à la réponse 403 Forbidden,
+    sauf qu'un code 403 est retourné lorsqu'une requête contient des identifiants valides,
+    mais que le client n'a pas les permissions nécessaires pour effectuer une certaine action.*/
 
-    it("renvoie une erreur 401 ou 403 si accès au panier sans authentification", () => {
+    it("renvoie une erreur 401 (non connecté) si accès au panier sans authentification", () => {
       cy.request({
         method: "GET",
         url: apiOrders,
         failOnStatusCode: false,
       }).then((response) => {
-        expect(response.status).to.be.oneOf([401, 403]);
+        expect(response.status).to.eq(401);
       });
     });
 
