@@ -1,4 +1,5 @@
 // Tests fonctionnels du panier
+
 describe("Tests fonctionnels du panier", () => {
   const apiUrl = Cypress.env("apiUrl");
   const apiOrders = `${apiUrl}/orders`;
@@ -67,8 +68,8 @@ describe("Tests fonctionnels du panier", () => {
     cy.getBySel("detail-product-stock").should("contain", "1");
   });
 
-  // Test 2 : Teste les valeurs de quantité invalides (négatif, 0, > 20)
-  const invalidQuantities = ["-1", "0", "21"];
+  // Test 2 : Teste les valeurs de quantité invalides (négatif, 0, 1, > 20)
+  const invalidQuantities = ["-1", "0", "1", "21"];
 
   invalidQuantities.forEach((value) => {
     it(`teste avec une quantité invalide : ${value}`, () => {
@@ -77,7 +78,7 @@ describe("Tests fonctionnels du panier", () => {
         .clear()
         .type(value)
         .should("have.class", "ng-invalid");
-      cy.getBySel("detail-product-add").click();
+      cy.getBySel("detail-product-add").click(); // pas de message d'alerte ????
       cy.wait(500);
       cy.url().should("not.include", "/cart");
     });
