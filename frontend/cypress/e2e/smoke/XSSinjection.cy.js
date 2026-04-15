@@ -4,7 +4,7 @@ describe("XSS vulnerability test", () => {
   before(() => {
     cy.initSession(); // Initialise la session
   });
-  it("should not execute script in product opinion", () => {
+  it("n'exécute pas de scripts injecté dans un champ commentaire", () => {
     const title = "Test XSS";
     const comment = "<script>alert('XSS');</script>";
     const rating = Math.floor(Math.random() * 5); // Génère un nombre entre 0 et 4
