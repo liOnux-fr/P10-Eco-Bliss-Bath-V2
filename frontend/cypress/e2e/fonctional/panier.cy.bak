@@ -16,13 +16,8 @@ describe("Tests fonctionnels du panier", () => {
     cy.emptyCart();
     cy.request("GET", apiProducts).then((response) => {
       const products = response.body;
-      const validProduct = products.find((p) => p.availableStock > 20); // Sélectionne un produit avec un stock > 20
-      if (!validProduct) {
-        // Affiche un message d'erreur et arrête le test si stock =< 20
-        throw new Error(
-          "Pour ce test, aucun produit avec un stock > 20 n'a été trouvé dans la base de données.",
-        );
-      }
+      const validProduct = products.find((p) => p.availableStock > 1); // Sélectionne un produit avec un stock > 1
+      expect(validProduct).to.exist;
       productID = validProduct.id;
       productName = validProduct.name;
       productPageUrl = `#/products/${productID}`;
@@ -35,19 +30,17 @@ describe("Tests fonctionnels du panier", () => {
 
   // Test 1 : Ajout d'un produit au panier et vérification du stock
   it("teste l'ajout d'un produit au panier et vérifie la mise à jour du stock", () => {
+    const quantityToAdd = initialStock - 1;
+
     // 1. Va à la page du produit
     cy.visit(productPageUrl);
     cy.getBySel("detail-product-name").contains(productName);
 
     // 2. Saisi la quantité et ajoute au panier
-    cy.getBySel("detail-product-quantity").clear().type(1);
+    cy.getBySel("detail-product-quantity").clear().type(quantityToAdd);
     cy.getBySel("detail-product-add").click();
 
-    // 3. Vérifie le panier via l'UI
-    cy.visit("#/cart");
-    cy.getBySel("cart-line-quantity").should("have.value", 1);
-
-    // 4. Vérifie le panier via l'API
+    // 3. Vérifie le panier via l'API
     cy.request({
       method: "GET",
       url: apiOrders,
@@ -57,25 +50,35 @@ describe("Tests fonctionnels du panier", () => {
         (line) => line.product.id === productID,
       );
       expect(productInCart).to.exist;
-      expect(productInCart.quantity).to.eq(1);
+      expect(productInCart.quantity).to.eq(quantityToAdd);
     });
+
+    // 4. Vérifie le panier via l'UI
+    cy.visit("#/cart");
+    cy.getBySel("cart-line-quantity").should("have.value", quantityToAdd);
+
+    //   // 5. Retourne sur la page du produit et vérifie le stock via l'API
+    //   cy.request("GET", `${apiProducts}/${productID}`).then((response) => {
+    //     expect(response.body.availableStock).to.eq(1);
+    //   });
+    // });
 
     // 5. Retourne sur la page du produit et vérifie le stock
     cy.visit(productPageUrl);
-    cy.getBySel("detail-product-stock").should("contain", initialStock - 1);
+    cy.getBySel("detail-product-stock").should("contain", "1");
   });
 
   // Test 2 : Teste les valeurs de quantité invalides (négatif, 0, > 20)
   const invalidQuantities = ["-1", "0", "21"];
 
   invalidQuantities.forEach((value) => {
-    it(`teste avec la quantité invalide : ${value}`, () => {
+    it(`teste avec une quantité invalide : ${value}`, () => {
       cy.visit(productPageUrl);
       cy.getBySel("detail-product-quantity")
         .clear()
         .type(value)
         .should("have.class", "ng-invalid");
-      cy.getBySel("detail-product-add").click(); // pas de message d'alerte si stock insufisant ?
+      cy.getBySel("detail-product-add").click(); // pas de message d'alerte ????
       cy.wait(500);
       cy.url().should("not.include", "/cart");
     });

@@ -24,7 +24,7 @@ describe("Tests sur l'API /orders/add", () => {
     });
 
     // Test d'ajout d'un produit en rupture de stock
-    it("ne peut ajouter un produit en rupture de stock", () => {
+    it("ne peut pas ajouter un produit en rupture de stock", () => {
       cy.request({
         method: "PUT",
         url: apiOrdersAdd,

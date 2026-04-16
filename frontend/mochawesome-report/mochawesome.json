@@ -1,0 +1,100 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-04-16T19:59:26.724Z",
+    "end": "2026-04-16T19:59:28.369Z",
+    "duration": 1645,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "32f1ff65-91a3-4eae-b014-95866afe4f87",
+      "title": "",
+      "fullFile": "cypress/e2e/smoke/product.component.cy.js",
+      "file": "cypress/e2e/smoke/product.component.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "ac179fac-2c8d-4477-8852-4df57ae8a0a0",
+          "title": "Page d'un produit",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Présence du bouton d’ajout au panier en mode connecté",
+              "fullTitle": "Page d'un produit Présence du bouton d’ajout au panier en mode connecté",
+              "timedOut": null,
+              "duration": 1573,
+              "state": "passed",
+              "speed": "fast",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "cy.initSession().then(() => {\n  expect(Cypress.env(\"status\")).to.eq(200);\n  expect(Cypress.env(\"token\")).to.exist;\n});\ncy.visit(\"#/products\");\ncy.getBySel(\"product-link\").first().click();\ncy.getBySel(\"detail-product-add\").should(\"be.visible\");",
+              "err": {},
+              "uuid": "bc532845-f04d-43c6-bcce-9e3fd206c898",
+              "parentUUID": "ac179fac-2c8d-4477-8852-4df57ae8a0a0",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "bc532845-f04d-43c6-bcce-9e3fd206c898"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 1573,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": null,
+      "version": "6.3.2"
+    }
+  }
+}
