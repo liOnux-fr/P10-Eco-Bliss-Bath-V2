@@ -62,7 +62,7 @@ Exécutez la commande ci-dessous pour installer Cypress localement en tant que d
 ```
 npm install cypress --save-dev
 ```
-Ouvrir Cypress avec cette commande puis choisir entre les tests de bout en bout (E2E) et les tests de composants (CT) :
+Ouvrir Cypress avec cette commande puis choisir entre les tests de bout en bout (E2E) :
 ```
 npx cypress open (en GUI)
 ou
@@ -72,3 +72,13 @@ npx cypress run (en CLI)
 <br>
 
 # Pour générer les rapports de tests
+
+Installer le rapporteur de test [mochawesome](https://www.npmjs.com/package/mochawesome) comme suit :
+```
+npm install --save-dev mochawesome
+```
+puis dans le fichier ```frontend/cypress.config.js``` en dessous de ```module.exports = defineConfig```, rajouter :
+```
+  reporter: 'cypress-mochawesome-reporter',
+```
+Les rapports seront générés automatiquement et accessibles à ```frontend/cypress/reports/html/index.html```

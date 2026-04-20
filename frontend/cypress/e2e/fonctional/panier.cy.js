@@ -76,7 +76,7 @@ describe("Tests fonctionnels du panier", () => {
         .type(value)
         .should("have.class", "ng-invalid");
       cy.getBySel("detail-product-add").click(); // pas de message d'alerte si stock insufisant ?
-      cy.wait(500);
+      // cy.getBySel("detail-product-quantity").should("have.class", "ng-invalid"); // attendre que le champ reste invalide au lieu d'un cy.wait(500)
       cy.url().should("not.include", "/cart");
     });
   });

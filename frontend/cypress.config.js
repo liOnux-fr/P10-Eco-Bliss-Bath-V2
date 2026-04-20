@@ -2,7 +2,7 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
-  reporter: "mochawesome",
+  reporter: "cypress-mochawesome-reporter",
   allowCypressEnv: true,
   env: {
     apiUrl: "http://localhost:8081",
@@ -13,6 +13,7 @@ module.exports = defineConfig({
     experimentalSessionAndOrigin: true, // Active cy.session
     setupNodeEvents(on, config) {
       // Configuration des événements Node ici
+      require("cypress-mochawesome-reporter/plugin")(on);
       return config;
     },
   },
