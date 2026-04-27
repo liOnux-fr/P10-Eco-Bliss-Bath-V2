@@ -5,28 +5,20 @@ describe("Tests fonctionnels du panier", () => {
   const apiOrders = `${apiUrl}/orders`;
   const apiProducts = `${apiUrl}/products`;
 
-  let productID;
+  // Utilisation directe du produit ID 5 (stock > 20 garanti par la base de tests)
+  const productID = 5;
+  const productPageUrl = `#/products/${productID}`;
   let productName;
-  let productPageUrl;
   let initialStock;
 
-  // Initialise la session, vide le panier et sélectionne un produit valide avant chaque test
+  // Initialise la session et vide le panier avant chaque test
   beforeEach(() => {
     cy.initSession();
     cy.emptyCart();
-    cy.request("GET", apiProducts).then((response) => {
-      const products = response.body;
-      const validProduct = products.find((p) => p.availableStock > 20); // Sélectionne un produit avec un stock > 20
-      if (!validProduct) {
-        // Affiche un message d'erreur et arrête le test si stock =< 20
-        throw new Error(
-          "Pour ce test, aucun produit avec un stock > 20 n'a été trouvé dans la base de données.",
-        );
-      }
-      productID = validProduct.id;
-      productName = validProduct.name;
-      productPageUrl = `#/products/${productID}`;
-      initialStock = validProduct.availableStock;
+    // Récupère les infos du produit ID 5 (nom et stock initial)
+    cy.request("GET", `${apiProducts}/${productID}`).then((response) => {
+      productName = response.body.name;
+      initialStock = response.body.availableStock;
       cy.log(
         `Produit sélectionné : ${productName} (ID: ${productID}, Stock: ${initialStock})`,
       );
@@ -45,7 +37,7 @@ describe("Tests fonctionnels du panier", () => {
 
     // 3. Vérifie le panier via l'UI
     cy.visit("#/cart");
-    cy.getBySel("cart-line-quantity").should("have.value", 1);
+    cy.getBySel("cart-line-quantity").should("have.value", "1");
 
     // 4. Vérifie le panier via l'API
     cy.request({
@@ -75,8 +67,7 @@ describe("Tests fonctionnels du panier", () => {
         .clear()
         .type(value)
         .should("have.class", "ng-invalid");
-      cy.getBySel("detail-product-add").click(); // pas de message d'alerte si stock insufisant ?
-      // cy.getBySel("detail-product-quantity").should("have.class", "ng-invalid"); // attendre que le champ reste invalide au lieu d'un cy.wait(500)
+      cy.getBySel("detail-product-add").click();
       cy.url().should("not.include", "/cart");
     });
   });

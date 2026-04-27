@@ -4,12 +4,12 @@ const apiReviews = `${Cypress.env("apiUrl")}/reviews`;
 
 describe("Tests sur l'API /reviews", () => {
   beforeEach(() => {
-    cy.initSession();
+    cy.initSession(); // Avant chaque test
   });
 
   context("POST /reviews", () => {
     it("se connecte avec des identifiants valides et ajoute un avis", () => {
-      // 1. Préparation de l'avis à envoyer
+      // 1. Préparation de l'avis à envoyer (sous forme d'objet)
       const review = {
         rating: 3,
         title: "Test d'avis",
@@ -35,7 +35,7 @@ describe("Tests sur l'API /reviews", () => {
     });
 
     // Boucle pour tester chaque champ obligatoire manquant
-    const requiredFields = ["rating", "title", "comment"];
+    const requiredFields = ["rating", "title", "comment"]; // tableau des champs obligatoires
     requiredFields.forEach((missingField) => {
       it(`échoue si le champ ${missingField} est manquant`, () => {
         // Crée un avis complet
@@ -43,11 +43,11 @@ describe("Tests sur l'API /reviews", () => {
           rating: 3,
           title: "Test d'avis",
           comment: "Lorem ipsum",
-        };
+        }; // sous forme d'objet
 
         // Supprime le champ manquant pour ce test
-        const incompleteReview = { ...completeReview };
-        delete incompleteReview[missingField];
+        const incompleteReview = { ...completeReview }; // ...opérateur de propagation pour copier l'objet précédent
+        delete incompleteReview[missingField]; // efface la propriété en cours de boucle
 
         cy.request({
           method: "POST",

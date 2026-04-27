@@ -3,6 +3,7 @@
 const apiProducts = `${Cypress.env("apiUrl")}/products/3`;
 
 describe("Tests sur l'API /products/{id}", () => {
+  // Test sur le produit ID 3 présent dans la base de tests
   it("doit retourner la fiche du produit 3", () => {
     cy.request("GET", apiProducts).then((response) => {
       expect(response.status).to.eq(200); // vérifie le bon statut
